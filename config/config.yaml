@@ -1,4 +1,4 @@
 browserType:
   browserName: chrome
 baseUrl:
-  url: https://www.example.com
+  url: https://www.baidu.com/

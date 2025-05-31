@@ -1,23 +1,49 @@
-import  os
+import os
+import sys
+import time
+import logging
 
-import  logging
 
-def get_logger (name="selenium"):
+def get_logger():
+    # 设置日志存储路径/日志名称
+    root_path = os.path.dirname(os.path.abspath(sys.argv[0]))
+    current_time = time.strftime('%Y-%m-%d-%H%M%S')
+    log_dir = os.path.join(root_path, 'res', 'logs')
 
-    logger=logging.getLogger(name)
+    # 确保日志目录存在
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
 
-    logger.setLevel(logging.info())
+    log_name = os.path.join(log_dir, f'{current_time}-webui.log')
 
-    log_path = "test/test.log"
+    # 创建一个 logger 实例
+    logger = logging.getLogger('my_logger')
+    logger.setLevel(logging.DEBUG)
 
-    os.mkdir(os.path.dirname(log_path),exist_ok=True)
+    # 创建一个 handler，用于写入日志文件
+    file_handler = logging.FileHandler(log_name, 'a', encoding='utf-8')
+    file_handler.setLevel(logging.DEBUG)
 
-    fh = logging.FileHandler(log_path,encoding='utf-8')
+    # 创建一个 handler，用于输出到控制台
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.DEBUG)
 
-    formatter = logging.Formatter ("%(asctime)s - % (level)s - %(name)s")
+    # 定义 handler 的输出格式
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(formatter)
+    console_handler.setFormatter(formatter)
 
-    fh.setFormatter(formatter)
+    # 给 logger 添加 handler
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
 
-    logger.addHandler(fh)
+    # 返回配置好的 logger 实例
+    return logger
 
-    return  fh
+
+if __name__ == '__main__':
+    log = get_logger()
+    log.info("这是一条 info 日志")
+    log.debug("这是一条 debug 日志")
+    log.warning("这是一条 warning 日志")
+    log.error("这是一条 error 日志")
