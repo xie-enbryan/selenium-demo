@@ -1,0 +1,8 @@
+# 百度搜索框
+baidu_search_input:
+  by: id
+  value: kw
+
+baidu_search_button:
+  by: id
+  value: su

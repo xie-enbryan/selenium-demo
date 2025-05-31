@@ -1,0 +1,8 @@
+# 放置浏览器，账号密码等配置项
+
+browser: chrome
+url: https://www.baidu.com
+username: tester
+password: 123
+headless: True
+
